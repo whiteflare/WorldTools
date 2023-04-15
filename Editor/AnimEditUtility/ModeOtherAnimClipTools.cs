@@ -22,9 +22,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeOtherAnimClipTools : AnimEditUtilWindowEditMode
+    internal class ModeOtherAnimClipTools : AnimEditUtilWindowEditMode
     {
         public AnimatorController t01Controller;
         public AnimationClip[] t01Clips = { };

@@ -23,9 +23,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeOtherAnimatorTools : AnimEditUtilWindowEditMode
+    internal class ModeOtherAnimatorTools : AnimEditUtilWindowEditMode
     {
         public bool writeDefault = false;
         public bool writeDefaultMixed = false;

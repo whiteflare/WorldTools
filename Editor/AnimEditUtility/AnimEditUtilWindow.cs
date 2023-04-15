@@ -38,9 +38,9 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 #endif
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class AnimEditUtilWindow : EditorWindow
+    internal class AnimEditUtilWindow : EditorWindow
     {
         public const string Title = "Anim Edit Utility";
 

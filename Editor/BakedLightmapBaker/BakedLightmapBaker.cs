@@ -23,9 +23,9 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 
-namespace WF.Utillty.BakeLmapBaker
+namespace WF.Tool.World.BakeLmapBaker
 {
-    public class BakedLightmapBaker : EditorWindow
+    internal class BakedLightmapBaker : EditorWindow
     {
         private const string MENU_NAME = "GameObject/LightmapUVをMeshにベイクする";
 

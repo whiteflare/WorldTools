@@ -23,11 +23,11 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
-namespace WF.Utillty
+namespace WF.Tool.World
 {
-    public class MaterialShaderExplorer : EditorWindow
+    internal class MaterialShaderExplorer : EditorWindow
     {
-        [MenuItem("Tools/whiteflare/Misc/Material Shader Explorer")]
+        [MenuItem("Tools/whiteflare/Material Shader Explorer")]
         public static void EntryMenuTool() {
             GetWindow<MaterialShaderExplorer>("Material Shader Explorer");
         }
@@ -84,7 +84,7 @@ namespace WF.Utillty
             treeView.Reload();
         }
 
-        public struct GuidAndShader
+        internal struct GuidAndShader
         {
             public Shader shader;
             public string guid;
@@ -115,7 +115,7 @@ namespace WF.Utillty
             }
         }
 
-        public class MaterialShaderItem
+        internal class MaterialShaderItem
         {
             public readonly Material material;
             public readonly GuidAndShader shader;
@@ -128,7 +128,7 @@ namespace WF.Utillty
             }
         }
 
-        public class MaterialShaderListView : TreeView
+        internal class MaterialShaderListView : TreeView
         {
             private MaterialShaderItem[] items = new MaterialShaderItem[0];
             private List<object> idTable = new List<object>();

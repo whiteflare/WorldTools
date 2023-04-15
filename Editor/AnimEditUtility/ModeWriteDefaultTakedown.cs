@@ -22,9 +22,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeWriteDefaultTakedown : AnimEditUtilWindowEditMode
+    internal class ModeWriteDefaultTakedown : AnimEditUtilWindowEditMode
     {
         public AnimationClip emptyAnimClip;
         public AnimationClip resetAnimClip;

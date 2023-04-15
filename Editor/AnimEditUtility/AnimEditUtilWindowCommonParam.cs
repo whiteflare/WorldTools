@@ -35,9 +35,9 @@ using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 #endif
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class AnimEditUtilWindowCommonParam : ScriptableObject
+    internal class AnimEditUtilWindowCommonParam : ScriptableObject
     {
         public GameObject avatarRoot = null;
         public AnimatorController animator = null;

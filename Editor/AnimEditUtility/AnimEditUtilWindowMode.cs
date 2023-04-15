@@ -23,9 +23,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public abstract class AnimEditUtilWindowEditMode : ScriptableObject
+    internal abstract class AnimEditUtilWindowEditMode : ScriptableObject
     {
         [System.NonSerialized]
         protected AnimEditUtilWindowCommonParam param;
@@ -161,7 +161,7 @@ namespace WF.Utillty.AnimEdit
                 return (T)EditorGUILayout.ObjectField(new GUIContent(label), value, typeof(T), true);
         }
 
-        public class ChangeColorScope : GUI.Scope
+        internal class ChangeColorScope : GUI.Scope
         {
             private readonly Color oldColor;
 

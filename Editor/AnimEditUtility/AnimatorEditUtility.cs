@@ -23,12 +23,12 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
     /// <summary>
     /// UnityEditor.Animations.AnimatorController とその周辺を編集するユーティリティ
     /// </summary>
-    public static class AnimatorEditUtility
+    internal static class AnimatorEditUtility
     {
         #region Animator編集系
 

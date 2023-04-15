@@ -37,9 +37,9 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace WF.Utillty.AvTexTool
+namespace WF.Tool.World.AvTexTool
 {
-    public class AvatarTexTool : EditorWindow
+    internal class AvatarTexTool : EditorWindow
     {
         [MenuItem("Tools/whiteflare/Avatar Texture Tool")]
         public static void EntryMenuTool()
@@ -222,7 +222,7 @@ namespace WF.Utillty.AvTexTool
             };
         }
 
-        public class TexImportHook : AssetPostprocessor
+        internal class TexImportHook : AssetPostprocessor
         {
             void OnPostprocessTexture(Texture2D texture)
             {
@@ -335,7 +335,7 @@ namespace WF.Utillty.AvTexTool
         const int COL_GenerateMipmap = 11;
         const int COL_StreamingMipmap = 12;
 
-        public class TxTreeViewItem
+        internal class TxTreeViewItem
         {
             public readonly Texture texture;
             public readonly TextureImporter importer;
@@ -1086,7 +1086,7 @@ namespace WF.Utillty.AvTexTool
             }
         }
 
-        public class TextureListView : TreeView
+        internal class TextureListView : TreeView
         {
             public TxTreeViewItem[] items = new TxTreeViewItem[0];
             private readonly float originalRowHeight;
@@ -1524,7 +1524,7 @@ namespace WF.Utillty.AvTexTool
                 rowHeight = Math.Max(previewSize, originalRowHeight);
             }
 
-            public class ExTreeViewItem : TreeViewItem
+            internal class ExTreeViewItem : TreeViewItem
             {
                 public TxTreeViewItem info;
             }

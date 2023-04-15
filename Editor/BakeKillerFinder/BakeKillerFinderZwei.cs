@@ -30,7 +30,7 @@ namespace VKetEditorTools.BakeKillerFinder
     {
         public static readonly string WINDOW_TITLE = "BakeKillerFinder改";
 
-        [MenuItem("Tools/whiteflare/Analysis/BakeKillerFinder改")]
+        [MenuItem("Tools/whiteflare/BakeKillerFinder改")]
         static void ShowWindow()
         {
             GetWindow<BakeKillerFinderZweiWindow>(WINDOW_TITLE);
@@ -332,7 +332,7 @@ namespace VKetEditorTools.BakeKillerFinder
         /// Hierarchyに表示されているシーンを全て取得する。
         /// </summary>
         /// <returns>Sceneのコレクション</returns>
-        public static IEnumerable<Scene> GetAllLoadedScenes()
+        static IEnumerable<Scene> GetAllLoadedScenes()
         {
             var result = new List<Scene>();
             var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
@@ -354,7 +354,7 @@ namespace VKetEditorTools.BakeKillerFinder
         /// Hierarchyに表示されているシーンの、全てのルートオブジェクトを取得する。
         /// </summary>
         /// <returns>GameObjectのコレクション</returns>
-        public static IEnumerable<GameObject> GetAllRootGameObjects()
+        static IEnumerable<GameObject> GetAllRootGameObjects()
         {
             return GetAllLoadedScenes().SelectMany(scene => scene.GetRootGameObjects());
         }

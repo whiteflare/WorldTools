@@ -34,9 +34,9 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeCopyLayer : AnimEditUtilWindowEditMode
+    internal class ModeCopyLayer : AnimEditUtilWindowEditMode
     {
         public AnimatorController srcAnimator;
         public int srcLayerIndex;

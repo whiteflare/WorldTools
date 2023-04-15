@@ -20,10 +20,10 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace WF.Utillty.LightProbeEdit
+namespace WF.Tool.World.LightProbeEdit
 {
    [CustomEditor(typeof(LightProbeVisualizer))]
-    public class LightProbeVisualizerEditor : Editor
+    internal class LightProbeVisualizerEditor : Editor
     {
         public override void OnInspectorGUI()
         {
@@ -69,7 +69,7 @@ namespace WF.Utillty.LightProbeEdit
         }
     }
 
-    public class LightProbeVisualizerWindow : EditorWindow
+    internal class LightProbeVisualizerWindow : EditorWindow
     {
         public static void OpenWindow(LightProbeVisualizer target = null)
         {

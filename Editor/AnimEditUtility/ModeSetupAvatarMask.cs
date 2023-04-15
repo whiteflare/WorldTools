@@ -38,11 +38,11 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 #endif
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
 #if ENV_VRCSDK3_AVATAR
 
-    public class ModeSetupAvatarMask : AnimEditUtilWindowEditMode
+    internal class ModeSetupAvatarMask : AnimEditUtilWindowEditMode
     {
         public override void OnGUI()
         {

@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace WF.Utillty.LightProbeEdit
+namespace WF.Tool.World.LightProbeEdit
 {
-    public class LightProbeVisualizerSingleton : ScriptableSingleton<LightProbeVisualizerSingleton>
+    internal class LightProbeVisualizerSingleton : ScriptableSingleton<LightProbeVisualizerSingleton>
     {
         public void UpdateScale(LightProbeVisualizer vis)
         {

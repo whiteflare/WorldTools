@@ -36,9 +36,9 @@ using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 #endif
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeNewLayer : AnimEditUtilWindowEditMode
+    internal class ModeNewLayer : AnimEditUtilWindowEditMode
     {
         protected const string LabelSaved = "Saved";
 

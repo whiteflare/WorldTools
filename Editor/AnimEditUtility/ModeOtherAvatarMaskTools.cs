@@ -22,9 +22,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
-    public class ModeOtherAvatarMaskTools : AnimEditUtilWindowEditMode
+    internal class ModeOtherAvatarMaskTools : AnimEditUtilWindowEditMode
     {
         private bool t01AllowHumanoid = true;
         private bool t01AllowTransform = true;

@@ -26,9 +26,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
-namespace WF.Utillty.Lightmap
+namespace WF.Tool.World.Lightmap
 {
-    public class LightmapControlPanel : EditorWindow
+    internal class LightmapControlPanel : EditorWindow
     {
         [MenuItem("Tools/whiteflare/Lightmap ControlPanel")]
         public static void EntryMenuTool()
@@ -189,7 +189,7 @@ namespace WF.Utillty.Lightmap
         const int COL_HasUV2 = 15;
         const int COL_GenerateLightmapUVs = 16;
 
-        public class LtTreeViewItem
+        internal class LtTreeViewItem
         {
             public readonly MeshRenderer renderer;
             public readonly GameObject gameObject;
@@ -386,7 +386,7 @@ namespace WF.Utillty.Lightmap
             }
         }
 
-        public class MeshListView : TreeView
+        internal class MeshListView : TreeView
         {
             public LtTreeViewItem[] items = new LtTreeViewItem[0];
 
@@ -786,7 +786,7 @@ namespace WF.Utillty.Lightmap
                 Reload();
             }
 
-            public class ExTreeViewItem : TreeViewItem
+            internal class ExTreeViewItem : TreeViewItem
             {
                 public LtTreeViewItem info;
             }

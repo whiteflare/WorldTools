@@ -35,14 +35,14 @@ using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 #endif
 
-namespace WF.Utillty.AnimEdit
+namespace WF.Tool.World.AnimEdit
 {
 #if ENV_VRCSDK3_AVATAR
 
     /// <summary>
     /// UnityEditor.Animations.AnimatorController とその周辺を編集するユーティリティ
     /// </summary>
-    public static class AvatarAssetEditUtility
+    internal static class AvatarAssetEditUtility
     {
         public static bool HasExParameter(VRCExpressionParameters exParam, string name)
         {

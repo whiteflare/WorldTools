@@ -26,9 +26,9 @@ using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.SceneManagement;
 
-namespace WF.Utillty
+namespace WF.Tool.World
 {
-    public class HierarchyHelper : EditorWindow, IHasCustomMenu
+    internal class HierarchyHelper : EditorWindow, IHasCustomMenu
     {
         private const string Title = "HierarchyHelper";
         private const string ConfigKey = "WF.Utillty.HierarchyHelper";
@@ -193,10 +193,10 @@ namespace WF.Utillty
 
         #region サブクラス
 
-        delegate void PreIsActiveHandler(List<GameObject> result);
-        delegate bool IsActiveHandler(GameObject obj);
+        internal delegate void PreIsActiveHandler(List<GameObject> result);
+        internal delegate bool IsActiveHandler(GameObject obj);
 
-        class HighlightMode
+        internal class HighlightMode
         {
             public static readonly HighlightMode Dummy = new HighlightMode("", go => false);
 
@@ -206,10 +206,10 @@ namespace WF.Utillty
 
             private readonly List<GameObject> targets = new List<GameObject>();
 
-            public HighlightMode(string name, PreIsActiveHandler preIsActive) : this(name, preIsActive, null) {
+            internal HighlightMode(string name, PreIsActiveHandler preIsActive) : this(name, preIsActive, null) {
             }
 
-            public HighlightMode(string name, IsActiveHandler isActive) : this(name, null, isActive) {
+            internal HighlightMode(string name, IsActiveHandler isActive) : this(name, null, isActive) {
             }
 
             private HighlightMode(string name, PreIsActiveHandler preIsActive, IsActiveHandler isActive) {
@@ -235,7 +235,7 @@ namespace WF.Utillty
             }
         }
 
-        public class HierarchyHelperConfig : ScriptableObject
+        internal class HierarchyHelperConfig : ScriptableObject
         {
             public bool highlightEnable = false;
             public int highlightMode = 0;

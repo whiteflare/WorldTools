@@ -22,9 +22,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace WF.Utillty.LightProbeEdit
+namespace WF.Tool.World.LightProbeEdit
 {
-    public class LightProbeEditUtility
+    internal class LightProbeEditUtility
     {
         private const string PATH_ROOT = "GameObject/ライトプローブ編集/";
         private const string PATH_CREATE_LINE = PATH_ROOT + "作成/Line";
@@ -537,7 +537,7 @@ namespace WF.Utillty.LightProbeEdit
         #endregion
     }
 
-    enum CreateProbeType
+    internal enum CreateProbeType
     {
         Line,
         Cage,
@@ -546,13 +546,13 @@ namespace WF.Utillty.LightProbeEdit
         Cylinder,
     }
 
-    enum CreateProbeOrigin
+    internal enum CreateProbeOrigin
     {
         Center,
         Corner,
     }
 
-    class CreateProbeDialog : EditorWindow
+    internal class CreateProbeDialog : EditorWindow
     {
         private static readonly Vector2 SIZE = new Vector2(320, 120);
 
@@ -620,7 +620,7 @@ namespace WF.Utillty.LightProbeEdit
         }
     }
 
-    class MergeByDistanceDialog : EditorWindow
+    internal class MergeByDistanceDialog : EditorWindow
     {
         private static readonly Vector2 SIZE = new Vector2(320, 80);
 
@@ -663,7 +663,7 @@ namespace WF.Utillty.LightProbeEdit
         }
     }
 
-    class FallProbeDialog : EditorWindow
+    internal class FallProbeDialog : EditorWindow
     {
         private static readonly Vector2 SIZE = new Vector2(320, 120);
 
