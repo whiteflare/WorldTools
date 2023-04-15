@@ -17,7 +17,7 @@
 
 using UnityEngine;
 
-namespace WF.Utillty.LightProbeEdit
+namespace WF.Tool.World.LightProbeEdit
 {
     public class LightProbeVisualizer : MonoBehaviour
     {
