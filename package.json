@@ -1,0 +1,13 @@
+{
+  "name": "jp.whiteflare.worldtools",
+  "displayName": "Flare's World Tools",
+  "version": "0.1.0",
+  "description": "Flare's World Tools",
+  "gitDependencies": {},
+  "vpmDependencies": {
+    "com.vrchat.clientsim": "1.2.2"
+  },
+  "legacyFolders": {},
+  "legacyFiles": {},
+  "localPath": "D:\\SiroKuro\\Documents\\unity\\_substream\\VPM_2019_World\\Packages\\jp.whiteflare.worldtools"
+}
