@@ -1,7 +1,7 @@
 {
   "name": "jp.whiteflare.worldtools",
   "displayName": "Flare's World Tools",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "author": {
     "name": "whiteflare"
   },
@@ -16,8 +16,7 @@
     "Assets\\whiteflare\\BakedLightmapBaker": "a8ca26bfb305bef4eb55ba627bb4c945",
     "Assets\\whiteflare\\HierarchyHelper": "97e98175714db7e46b162eb0b12142f7",
     "Assets\\whiteflare\\LightProbeEditUtility": "d5be6e5b88f33914896e416ea00f1126",
-    "Assets\\whiteflare\\LightmapControlPanel": "7a36c2975c4440f4e8aec027e4f9d75f",
-    "Assets\\whiteflare\\MaterialShaderExplorer": "f57ac511e0425784fabdd4449c2523aa"
+    "Assets\\whiteflare\\LightmapControlPanel": "7a36c2975c4440f4e8aec027e4f9d75f"
   },
   "legacyFiles": {}
 }
