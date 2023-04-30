@@ -30,8 +30,7 @@ namespace VKetEditorTools.BakeKillerFinder
     {
         public static readonly string WINDOW_TITLE = "BakeKillerFinder改";
 
-        [MenuItem("Tools/whiteflare/BakeKillerFinder改")]
-        static void ShowWindow()
+        public static void ShowWindow()
         {
             GetWindow<BakeKillerFinderZweiWindow>(WINDOW_TITLE);
         }

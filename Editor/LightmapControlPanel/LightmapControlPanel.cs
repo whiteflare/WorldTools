@@ -30,18 +30,10 @@ namespace WF.Tool.World.Lightmap
 {
     internal class LightmapControlPanel : EditorWindow
     {
-        [MenuItem("Tools/whiteflare/Lightmap ControlPanel")]
-        public static void EntryMenuTool()
+        public static void ShowWindow()
         {
             GetWindow<LightmapControlPanel>("Lightmap Control Panel");
         }
-
-        //[MenuItem("GameObject/Lightmap ControlPanel", priority = 141)]
-        //public static void EntryMenuGameObject() {
-        //    var window = GetWindow<LightmapTweak>("Lightmap ControlPanel");
-        //    window.rootObject = Selection.activeGameObject;
-        //    window.UpdateTreeView();
-        //}
 
         public TreeViewState treeViewState;
         private MeshListView treeView;
