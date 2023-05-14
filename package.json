@@ -8,7 +8,7 @@
   "description": "Flare's World Tools",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.clientsim": "1.2.2"
+    "com.vrchat.clientsim": "^1.2.2"
   },
   "legacyFolders": {
     "Assets\\whiteflare\\AnimEditUtility": "dfdccec0a7e8acf42af6439586e3fe30",
