@@ -489,7 +489,8 @@ namespace VKetEditorTools.BakeKillerFinder
                 {
                     continue;
                 }
-                if (path.StartsWith("Assets/", System.StringComparison.InvariantCulture) && !path.EndsWith(".mat", System.StringComparison.InvariantCulture))
+                if ((path.StartsWith("Assets/", System.StringComparison.InvariantCulture) || path.StartsWith("Packages/", System.StringComparison.InvariantCulture))
+                    && !path.EndsWith(".mat", System.StringComparison.InvariantCulture))
                 {
                     return true;
                 }
