@@ -40,6 +40,8 @@ namespace WF.Tool.World.AnimEdit
         public string replaceNameFrom = "";
         public string replaceNameTo = "";
 
+        public int namingLayerIndex;
+
         public override void ResetCommonParam(AnimEditUtilWindowCommonParam newParam)
         {
             base.ResetCommonParam(newParam);
@@ -229,6 +231,28 @@ namespace WF.Tool.World.AnimEdit
                 }
             }
 
+            EditorGUILayout.Space();
+            GUILayout.Label("Format State Names", StyleHeader);
+            {
+                EditorGUILayout.HelpBox("AnimatorControllerLayer 内 State の名称を振り直します。", MessageType.Info);
+
+                EditorGUILayout.Space();
+
+                param.animator = ObjectFieldRequired(LabelAnimatorController, param.animator, lightRed);
+                namingLayerIndex = IntPopupAnimatorLayer(LabelLayerName, param.animator, namingLayerIndex);
+
+                EditorGUILayout.Space();
+
+                if (BlueButton("Format State Names", param.animator == null))
+                {
+                    if (ConfirmContinue())
+                    {
+                        ExecuteFormatStateNames(param.animator, namingLayerIndex);
+                        // 通知
+                        OnAfterExecute();
+                    }
+                }
+            }
 
             EditorGUILayout.Space();
             GUILayout.Label("Cleanup AnimatorController", StyleHeader);
@@ -251,6 +275,50 @@ namespace WF.Tool.World.AnimEdit
                     }
                 }
             }
+        }
+
+        public static void ExecuteFormatStateNames(AnimatorController animator, int namingLayerIndex)
+        {
+            var layer = GetAnimatorLayer(animator, namingLayerIndex);
+            if (layer != null)
+            {
+                var names = new System.Collections.Generic.Dictionary<string, int>();
+                foreach (var state in AnimatorEditUtility.GetAllState(layer))
+                {
+                    string suggestedName;
+                    if (state.motion != null)
+                    {
+                        if (!string.IsNullOrWhiteSpace(state.motion.name))
+                        {
+                            suggestedName = state.motion.name;
+                        }
+                        else
+                        {
+                            suggestedName = state.motion.GetType().Name;
+                        }
+                    }
+                    else
+                    {
+                        suggestedName = "None";
+                    }
+
+                    if (names.ContainsKey(suggestedName))
+                    {
+                        var index = names[suggestedName] + 1;
+                        state.name = suggestedName + " " + index;
+                        names[suggestedName] = index;
+
+                    }
+                    else
+                    {
+                        names[suggestedName] = 0;
+                        state.name = suggestedName;
+                    }
+                    EditorUtility.SetDirty(state);
+                }
+            }
+
+            EditorUtility.SetDirty(animator);
         }
 
         public static void ExecuteCleanupAnimator(AnimatorController animator)
