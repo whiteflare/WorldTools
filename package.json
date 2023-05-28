@@ -1,22 +1,25 @@
 {
   "name": "jp.whiteflare.worldtools",
   "displayName": "Flare's World Tools",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": {
     "name": "whiteflare"
   },
   "description": "Flare's World Tools",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.clientsim": "^1.2.2"
+    "com.vrchat.worlds": "^3.1.13"
   },
   "legacyFolders": {
     "Assets\\whiteflare\\AnimEditUtility": "dfdccec0a7e8acf42af6439586e3fe30",
     "Assets\\whiteflare\\AvatarTexTool": "957ff4a0e9b0a2b4bb5cd5f99498272b",
+    "Assets\\whiteflare\\BakeKillerFinder": "7cc23d7c406df304daf95d4c7a0161c5",
     "Assets\\whiteflare\\BakedLightmapBaker": "a8ca26bfb305bef4eb55ba627bb4c945",
     "Assets\\whiteflare\\HierarchyHelper": "97e98175714db7e46b162eb0b12142f7",
     "Assets\\whiteflare\\LightProbeEditUtility": "d5be6e5b88f33914896e416ea00f1126",
     "Assets\\whiteflare\\LightmapControlPanel": "7a36c2975c4440f4e8aec027e4f9d75f"
   },
-  "legacyFiles": {}
+  "legacyFiles": {
+    "Assets\\whiteflare\\MiscTools\\Editor\\MeshPolyCounter.cs": "8f7ca49ca853c214db6ff6cff7958ac6"
+  }
 }
