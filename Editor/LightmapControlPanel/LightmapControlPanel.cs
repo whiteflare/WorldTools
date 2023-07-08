@@ -88,7 +88,11 @@ namespace WF.Tool.World.Lightmap
             {
                 for (int i = 0; i < SceneManager.sceneCount; i++)
                 {
-                    SceneManager.GetSceneAt(i).GetRootGameObjects(rootObjects);
+                    var scene = SceneManager.GetSceneAt(i);
+                    if (scene.isLoaded)
+                    {
+                        scene.GetRootGameObjects(rootObjects);
+                    }
                 }
             }
             else

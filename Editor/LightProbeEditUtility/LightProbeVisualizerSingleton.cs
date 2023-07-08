@@ -102,13 +102,17 @@ namespace WF.Tool.World.LightProbeEdit
             var wsProbes = new List<Vector3>();
             for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
             {
-                foreach (var go in UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).GetRootGameObjects())
+                var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                if (scene.isLoaded)
                 {
-                    foreach (var lpg in go.GetComponentsInChildren<LightProbeGroup>()) // active only
+                    foreach (var go in scene.GetRootGameObjects())
                     {
-                        foreach (var p in lpg.probePositions)
+                        foreach (var lpg in go.GetComponentsInChildren<LightProbeGroup>()) // active only
                         {
-                            wsProbes.Add(lpg.transform.TransformPoint(p));
+                            foreach (var p in lpg.probePositions)
+                            {
+                                wsProbes.Add(lpg.transform.TransformPoint(p));
+                            }
                         }
                     }
                 }
