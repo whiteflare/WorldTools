@@ -22,7 +22,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+
+#if UNITY_2021_2_OR_NEWER
+using UnityEditor.SceneManagement;
+#else
 using UnityEditor.Experimental.SceneManagement;
+#endif
 
 namespace VKetEditorTools.BakeKillerFinder
 {
@@ -391,7 +396,7 @@ namespace VKetEditorTools.BakeKillerFinder
             return FindInScene<Transform>(rootObject, onlyActiveObject).Select(t => t.gameObject);    // Transformを検索すると全GameObjectが引っかかる
         }
 
-        #region Component/GameObject判定用static関数
+#region Component/GameObject判定用static関数
 
         /// <summary>
         /// 全ての StaticEditorFlags がオンになっているならば true
@@ -661,7 +666,7 @@ namespace VKetEditorTools.BakeKillerFinder
                 || mat.shader.name == "Unlit/Transparent Cutout");
         }
 
-        #endregion
+#endregion
 
         internal class CheckingTask
         {
