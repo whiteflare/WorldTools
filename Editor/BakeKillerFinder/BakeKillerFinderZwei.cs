@@ -541,20 +541,11 @@ namespace VKetEditorTools.BakeKillerFinder
         }
 
         /// <summary>
-        /// SkinnedMeshRenderer が mesh を持たず、かつMeshRenderer の隣に MeshFilter が無いか、または Missing な mesh ならば true
+        /// SkinnedMeshRenderer が mesh を持たない、または Missing な mesh ならば true
         /// </summary>
         public static bool HasMissingMesh(SkinnedMeshRenderer renderer)
         {
-            if (renderer == null)
-            {
-                return false;
-            }
-            if (renderer.sharedMesh != null)
-            {
-                return false;
-            }
-            var mf = renderer.gameObject.GetComponent<MeshFilter>();
-            return mf == null || HasMissingMesh(mf);
+            return renderer != null && renderer.sharedMesh == null;
         }
 
         /// <summary>
