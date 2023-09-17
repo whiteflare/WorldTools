@@ -30,6 +30,12 @@ namespace WF.Tool.World.Lightmap
 {
     internal class LightmapControlPanel : EditorWindow
     {
+        [MenuItem("Tools/whiteflare/Lightmap ControlPanel", priority = 19)]
+        public static void Menu_LightmapControlPanel()
+        {
+            Lightmap.LightmapControlPanel.ShowWindow();
+        }
+
         public static void ShowWindow()
         {
             GetWindow<LightmapControlPanel>("Lightmap Control Panel");
