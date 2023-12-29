@@ -44,28 +44,23 @@ namespace WF.Tool.World.BakeLmapBaker
 
         public GameObject[] targets = { };
         public DefaultAsset folder = null;
+        private SerializedObject serializedObject;
 
         public void OnEnable()
         {
-            var so = new SerializedObject(this);
-            so.Update();
-            so.FindProperty(nameof(targets)).isExpanded = true;
-            so.ApplyModifiedPropertiesWithoutUndo();
+            serializedObject = new SerializedObject(this);
+            serializedObject.FindProperty(nameof(targets)).isExpanded = true;
         }
 
         public void OnGUI()
         {
-            var so = new SerializedObject(this);
-            so.Update();
+            serializedObject.Update();
 
             EditorGUILayout.Space();
 
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(so.FindProperty(nameof(targets)), new GUIContent("ターゲットオブジェクト"), true);
-            if (EditorGUI.EndChangeCheck())
-            {
-                so.ApplyModifiedPropertiesWithoutUndo();
-            }
+            EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(targets)), new GUIContent("ターゲットオブジェクト"), true);
+
+            serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
             EditorGUILayout.Space();
 
