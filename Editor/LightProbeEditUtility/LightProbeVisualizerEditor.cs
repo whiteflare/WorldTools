@@ -123,6 +123,27 @@ namespace WF.Tool.World.LightProbeEdit
                 }
             }
         }
+
+        [MenuItem("GameObject/Create Other/LightProbeVisualizer")]
+        public static void CreateInstanceIntoScene()
+        {
+            var path = AssetDatabase.GUIDToAssetPath("465e70e1d7f2bb34191559573aa3a5ec");
+            if (string.IsNullOrEmpty(path))
+            {
+                Debug.LogWarning("LightProbeVisualizer: Not Found LightProbeVisualizer.prefab");
+                return;
+            }
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab == null)
+            {
+                Debug.LogWarning("LightProbeVisualizer: LightProbeVisualizer.prefab Instantiation Failed.");
+                return;
+            }
+            var instance = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+            instance.transform.SetAsLastSibling();
+            Selection.activeGameObject = instance;
+            Undo.RegisterCreatedObjectUndo(instance, "Instantiate LightProbeVisualizer");
+        }
     }
 }
 
