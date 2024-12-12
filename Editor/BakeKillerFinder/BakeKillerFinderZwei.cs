@@ -127,8 +127,9 @@ namespace WF.Tool.World.BakeKillerFinder
 
         const int COL_Level = 0;
         const int COL_ObjectName = 1;
-        const int COL_ID = 2;
-        const int COL_MESSAGE = 3;
+        const int COL_ComponentType = 2;
+        const int COL_ID = 3;
+        const int COL_MESSAGE = 4;
 
         internal enum WarnLevel
         {
@@ -141,6 +142,7 @@ namespace WF.Tool.World.BakeKillerFinder
         internal class WarnItem
         {
             public GameObject gameObject;
+            public Component component;
             public WarnLevel level;
             public string wid;
             public string message;
@@ -155,6 +157,8 @@ namespace WF.Tool.World.BakeKillerFinder
                 {
                     case COL_ObjectName:
                         return gameObject.name;
+                    case COL_ComponentType:
+                        return component == null ? null : component.GetType().Name;
                     case COL_Level:
                         return level;
                     case COL_ID:
@@ -164,6 +168,11 @@ namespace WF.Tool.World.BakeKillerFinder
                     default:
                         return null;
                 }
+            }
+
+            public bool IsActive
+            {
+                get => component == null ? IsActive(gameObject) : IsActive(component);
             }
         }
 
@@ -193,6 +202,11 @@ namespace WF.Tool.World.BakeKillerFinder
                     {
                         headerContent = new GUIContent("Game Object"),
                         width = 200,
+                    },
+                    new MultiColumnHeaderState.Column
+                    {
+                        headerContent = new GUIContent("Component"),
+                        width = 100,
                     },
                     new MultiColumnHeaderState.Column
                     {
@@ -307,38 +321,37 @@ namespace WF.Tool.World.BakeKillerFinder
                 levelContent[2].text = "WARN";
                 levelContent[3].text = "INFO";
 
-                for (int i = 0; i < args.GetNumVisibleColumns(); i++)
+                var isActive = info.IsActive;
+
+                if (info.gameObject != null) // 途中でobjectがdestroyされた場合は何もしない
                 {
-                    if (info.gameObject == null)
+                    for (int i = 0; i < args.GetNumVisibleColumns(); i++)
                     {
-                        continue; // 途中でobjectがdestroyされた場合は何もしない
-                    }
-                    var isActive = info.gameObject.activeInHierarchy;
+                        var cellRect = args.GetCellRect(i);
+                        CenterRectUsingSingleLineHeight(ref cellRect);
 
-                    var cellRect = args.GetCellRect(i);
-                    CenterRectUsingSingleLineHeight(ref cellRect);
-
-                    int idx = args.GetColumn(i);
-                    switch (idx)
-                    {
-                        case COL_Level:
-                            // 非アクティブのときはラベル系を Disabled にして区別できるようにする
-                            using (new EditorGUI.DisabledGroupScope(!isActive))
-                            {
-                                var level= (int)info.level;
-                                if (0 <= level && level < levelContent.Length)
+                        int idx = args.GetColumn(i);
+                        switch (idx)
+                        {
+                            case COL_Level:
+                                // 非アクティブのときはラベル系を Disabled にして区別できるようにする
+                                using (new EditorGUI.DisabledGroupScope(!isActive))
                                 {
-                                    GUI.Label(cellRect, levelContent[level]);
+                                    var level = (int)info.level;
+                                    if (0 <= level && level < levelContent.Length)
+                                    {
+                                        GUI.Label(cellRect, levelContent[level]);
+                                    }
                                 }
-                            }
-                            break;
-                        default:
-                            // 非アクティブのときはラベル系を Disabled にして区別できるようにする
-                            using (new EditorGUI.DisabledGroupScope(!isActive))
-                            {
-                                GUI.Label(cellRect, "" + info.GetValue(idx));
-                            }
-                            break;
+                                break;
+                            default:
+                                // 非アクティブのときはラベル系を Disabled にして区別できるようにする
+                                using (new EditorGUI.DisabledGroupScope(!isActive))
+                                {
+                                    GUI.Label(cellRect, "" + info.GetValue(idx));
+                                }
+                                break;
+                        }
                     }
                 }
             }
@@ -396,7 +409,7 @@ namespace WF.Tool.World.BakeKillerFinder
                         .Select(go => new WarnItem(){
                             gameObject = go,
                             level = WarnLevel.FATAL,
-                            wid = "C5",
+                            wid = "A2",
                             message = "Missing Prefab です",
                         }));
                 },
@@ -408,10 +421,11 @@ namespace WF.Tool.World.BakeKillerFinder
             (rootObject, onlyActiveObject, result) =>
                 {
                     result.AddRange(FindInScene<MeshFilter>(rootObject, onlyActiveObject)
-                        .Where(IsLightmapStatic)
+                        .Where(IsLightmapped)
                         .Where(IsIllegalUV2)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.ERROR,
                             wid = "B1",
                             message = "UV2のないメッシュはライトベイクできません",
@@ -421,10 +435,11 @@ namespace WF.Tool.World.BakeKillerFinder
             (rootObject, onlyActiveObject, result) =>
                 {
                     result.AddRange(FindInScene<MeshRenderer>(rootObject, onlyActiveObject)
-                        .Where(IsLightmapStatic)
+                        .Where(IsContributeGI)
                         .Where(HasTextMeshPro)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.ERROR,
                             wid = "B2",
                             message = "TextMeshProメッシュはライトベイクできません",
@@ -434,10 +449,11 @@ namespace WF.Tool.World.BakeKillerFinder
             (rootObject, onlyActiveObject, result) =>
                 {
                     result.AddRange(FindInScene<MeshRenderer>(rootObject, onlyActiveObject)
-                        .Where(IsLightmapStatic)
+                        .Where(IsContributeGI)
                         .Where(HasMissingMaterial)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.ERROR,
                             wid = "B3",
                             message = "Material なし MeshRenderer はライトベイクできません",
@@ -447,10 +463,11 @@ namespace WF.Tool.World.BakeKillerFinder
             (rootObject, onlyActiveObject, result) =>
                 {
                     result.AddRange(FindInScene<MeshFilter>(rootObject, onlyActiveObject)
-                        .Where(IsLightmapStatic)
+                        .Where(IsContributeGI)
                         .Where(HasNaNMesh)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.ERROR,
                             wid = "B4",
                             message = "非数(NaN)を含むメッシュはライトベイクできません",
@@ -463,12 +480,26 @@ namespace WF.Tool.World.BakeKillerFinder
 
             (rootObject, onlyActiveObject, result) =>
                 {
-                    result.AddRange(FindInScene<SkinnedMeshRenderer>(rootObject, onlyActiveObject).Where(HasMissingMesh).Select(cmp => cmp.gameObject.transform)
-                        .Union(FindInScene<MeshRenderer>(rootObject, onlyActiveObject).Where(HasMissingMesh).Select(cmp => cmp.gameObject.transform))
-                        .Union(FindInScene<MeshFilter>(rootObject, onlyActiveObject).Where(HasMissingMesh).Select(cmp => cmp.gameObject.transform))
-                        .Distinct()
+                    result.AddRange(FindInScene<SkinnedMeshRenderer>(rootObject, onlyActiveObject).Where(HasMissingMesh)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
+                            level = WarnLevel.WARN,
+                            wid = "C1",
+                            message = "Mesh が Missing です",
+                        }));
+                    result.AddRange(FindInScene<MeshRenderer>(rootObject, onlyActiveObject).Where(HasMissingMesh)
+                        .Select(cmp => new WarnItem(){
+                            gameObject = cmp.gameObject,
+                            component = cmp,
+                            level = WarnLevel.WARN,
+                            wid = "C1",
+                            message = "Mesh が Missing です",
+                        }));
+                    result.AddRange(FindInScene<MeshFilter>(rootObject, onlyActiveObject).Where(HasMissingMesh)
+                        .Select(cmp => new WarnItem(){
+                            gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.WARN,
                             wid = "C1",
                             message = "Mesh が Missing です",
@@ -481,6 +512,7 @@ namespace WF.Tool.World.BakeKillerFinder
                         .Where(HasMissingMaterial)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.WARN,
                             wid = "C2",
                             message = "Material が Missing です",
@@ -492,6 +524,7 @@ namespace WF.Tool.World.BakeKillerFinder
                     result.AddRange(FindInScene<Renderer>(rootObject, onlyActiveObject).Where(HasErrorShader)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.WARN,
                             wid = "C3",
                             message = "Shader が InternalErrorShader です",
@@ -504,6 +537,7 @@ namespace WF.Tool.World.BakeKillerFinder
                         .Union(FindInScene<MeshRenderer>(rootObject, onlyActiveObject).Where(HasUnmatchMaterialCount).Select(cmp => cmp.gameObject.transform))
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.WARN,
                             wid = "C4",
                             message = "SubMeshCount と Material スロット数が不一致です",
@@ -515,6 +549,7 @@ namespace WF.Tool.World.BakeKillerFinder
                     result.AddRange(FindInScene<SkinnedMeshRenderer>(rootObject, onlyActiveObject).Where(HasMissingBone)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.WARN,
                             wid = "C6",
                             message = "Bone が Missing です",
@@ -543,6 +578,7 @@ namespace WF.Tool.World.BakeKillerFinder
                         .Where(renderer => renderer.sharedMaterials.Contains(unityDefaultMaterial))
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.INFO,
                             wid = "D2",
                             message = "Default-Material.mat が設定された Renderer です",
@@ -552,13 +588,14 @@ namespace WF.Tool.World.BakeKillerFinder
             (rootObject, onlyActiveObject, result) =>
                 {
                     result.AddRange(FindInScene<MeshRenderer>(rootObject, onlyActiveObject)
-                        .Where(IsLightmapStatic)
+                        .Where(IsLightmapped)
                         .Where(HasUnlitShader)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.INFO,
                             wid = "D3",
-                            message = "Unlitシェーダはライトマップを読み取らないため無駄となっています",
+                            message = "Unlitシェーダはライトマップを読み取らないため無駄が生じています",
                         }));
                 },
 
@@ -568,6 +605,7 @@ namespace WF.Tool.World.BakeKillerFinder
                         .Where(HasModelImportedMaterial)
                         .Select(cmp => new WarnItem(){
                             gameObject = cmp.gameObject,
+                            component = cmp,
                             level = WarnLevel.INFO,
                             wid = "D4",
                             message = "モデル組み込みマテリアルが使用されています",
@@ -724,15 +762,43 @@ namespace WF.Tool.World.BakeKillerFinder
         }
 
         /// <summary>
-        /// Lightmap static が付いているならば true
+        /// ContributeGI が付いているならば true
         /// </summary>
-        public static bool IsLightmapStatic(GameObject obj)
+        public static bool IsContributeGI(GameObject obj)
         {
             if (obj == null)
             {
                 return false;
             }
             if (!GameObjectUtility.AreStaticEditorFlagsSet(obj, StaticEditorFlags.ContributeGI))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// ContributeGI が付いているならば true
+        /// </summary>
+        public static bool IsContributeGI(Component cmp)
+        {
+            if (cmp == null)
+            {
+                return false;
+            }
+            return IsContributeGI(cmp.gameObject);
+        }
+
+        /// <summary>
+        /// ライトマップにベイクされるならば true
+        /// </summary>
+        public static bool IsLightmapped(GameObject obj)
+        {
+            if (!IsContributeGI(obj))
+            {
+                return false;
+            }
+            if (obj == null)
             {
                 return false;
             }
@@ -749,15 +815,15 @@ namespace WF.Tool.World.BakeKillerFinder
         }
 
         /// <summary>
-        /// Lightmap static が付いているならば true
+        /// ライトマップにベイクされるならば true
         /// </summary>
-        public static bool IsLightmapStatic(Component cmp)
+        public static bool IsLightmapped(Component cmp)
         {
             if (cmp == null)
             {
                 return false;
             }
-            return IsLightmapStatic(cmp.gameObject);
+            return IsLightmapped(cmp.gameObject);
         }
 
         /// <summary>
@@ -832,7 +898,8 @@ namespace WF.Tool.World.BakeKillerFinder
             var mf = renderer.gameObject.GetComponent<MeshFilter>();
             if (mf != null)
             {
-                return HasMissingMesh(mf);
+                return false; //  HasMissingMesh(mf); 
+                // MeshFilter が存在する場合は MeshFilter 側でメッシュ設定を確認するのでここでは false を返却
             }
             // TextMesh
             var tm = renderer.gameObject.GetComponent<TextMesh>();
