@@ -40,7 +40,7 @@ namespace WF.Tool.World.LightProbeEdit
 
         #region 作成系
 
-        [MenuItem(PATH_CREATE_LINE, false, 10)]
+        [MenuItem(PATH_CREATE_LINE, false, 11)]
         public static void Menu_CreateLine()
         {
             var selected = Selection.GetTransforms(SelectionMode.Editable);
@@ -55,7 +55,7 @@ namespace WF.Tool.World.LightProbeEdit
             CreateProbeBox(selected, x, 1, 1, origin, (xedge, yedge, zedge) => true);
         }
 
-        [MenuItem(PATH_CREATE_CAGE, false, 10)]
+        [MenuItem(PATH_CREATE_CAGE, false, 12)]
         public static void Menu_CreateCage()
         {
             var selected = Selection.GetTransforms(SelectionMode.Editable);
@@ -71,7 +71,7 @@ namespace WF.Tool.World.LightProbeEdit
             // XYZ全て端 or XYZのどれか2つが端のときに出力するとCageになる
         }
 
-        [MenuItem(PATH_CREATE_BOX, false, 10)]
+        [MenuItem(PATH_CREATE_BOX, false, 13)]
         public static void Menu_CreateBox()
         {
             var selected = Selection.GetTransforms(SelectionMode.Editable);
@@ -87,7 +87,7 @@ namespace WF.Tool.World.LightProbeEdit
             // XYZいずれかが端のときに出力するとBoxになる
         }
 
-        [MenuItem(PATH_CREATE_PLANE, false, 10)]
+        [MenuItem(PATH_CREATE_PLANE, false, 14)]
         public static void Menu_CreatePlane()
         {
             var selected = Selection.GetTransforms(SelectionMode.Editable);
@@ -103,7 +103,7 @@ namespace WF.Tool.World.LightProbeEdit
             // y = 1 とすることでPlaneになる
         }
 
-        [MenuItem(PATH_CREATE_CYLINDER, false, 10)]
+        [MenuItem(PATH_CREATE_CYLINDER, false, 15)]
         public static void Menu_CreateCylinder()
         {
             var selected = Selection.GetTransforms(SelectionMode.Editable);
@@ -282,7 +282,7 @@ namespace WF.Tool.World.LightProbeEdit
         /// <summary>
         /// 統合
         /// </summary>
-        [MenuItem(PATH_COMBINE, false, 10)]
+        [MenuItem(PATH_COMBINE, false, 16)]
         public static void Menu_LpgCombine()
         {
             var selected = GetSelectedLPG();
@@ -310,34 +310,9 @@ namespace WF.Tool.World.LightProbeEdit
         }
 
         /// <summary>
-        /// プローブを距離でマージ
-        /// </summary>
-        [MenuItem(PATH_MERGEPROBE, false, 10)]
-        public static void Menu_LpgMergeByDistance()
-        {
-            if (!MergeByDistanceDialog.ShowDialog(out var dist))
-            {
-                return;
-            }
-
-            var selected = GetSelectedLPG();
-            Undo.RecordObjects(selected, "LightProbe Merge by Distance");
-            foreach (var lpg in selected)
-            {
-                var wp = ObjectToWorldPosition(lpg.probePositions, lpg.transform);
-                int cntBefore = wp.Length;
-                wp = MergeByDistance(wp, dist);
-                int cntAfter = wp.Length;
-                lpg.probePositions = WorldToObjectPosition(wp, lpg.transform);
-                Debug.LogFormat(lpg, "{0} のプローブを距離でマージ: {1} 個 -> {2} 個", lpg, cntBefore, cntAfter);
-                EditorUtility.SetDirty(lpg);
-            }
-        }
-
-        /// <summary>
         /// Transform変更/ワールド原点へ
         /// </summary>
-        [MenuItem(PATH_CLRTRANSFORM, false, 10)]
+        [MenuItem(PATH_CLRTRANSFORM, false, 17)]
         public static void Menu_LpgToWorldOrigin()
         {
             var selected = GetSelectedLPG();
@@ -365,7 +340,7 @@ namespace WF.Tool.World.LightProbeEdit
         /// <summary>
         /// Transform変更/プローブの中央へ
         /// </summary>
-        [MenuItem(PATH_CENTERING, false, 10)]
+        [MenuItem(PATH_CENTERING, false, 18)]
         public static void Menu_LpgToProbeCenter()
         {
             var selected = GetSelectedLPG();
@@ -398,9 +373,34 @@ namespace WF.Tool.World.LightProbeEdit
         }
 
         /// <summary>
+        /// プローブを距離でマージ
+        /// </summary>
+        [MenuItem(PATH_MERGEPROBE, false, 19)]
+        public static void Menu_LpgMergeByDistance()
+        {
+            if (!MergeByDistanceDialog.ShowDialog(out var dist))
+            {
+                return;
+            }
+
+            var selected = GetSelectedLPG();
+            Undo.RecordObjects(selected, "LightProbe Merge by Distance");
+            foreach (var lpg in selected)
+            {
+                var wp = ObjectToWorldPosition(lpg.probePositions, lpg.transform);
+                int cntBefore = wp.Length;
+                wp = MergeByDistance(wp, dist);
+                int cntAfter = wp.Length;
+                lpg.probePositions = WorldToObjectPosition(wp, lpg.transform);
+                Debug.LogFormat(lpg, "{0} のプローブを距離でマージ: {1} 個 -> {2} 個", lpg, cntBefore, cntAfter);
+                EditorUtility.SetDirty(lpg);
+            }
+        }
+
+        /// <summary>
         /// コライダーに落下させる
         /// </summary>
-        [MenuItem(PATH_FALLPROBE, false, 10)]
+        [MenuItem(PATH_FALLPROBE, false, 20)]
         public static void Menu_LpgFallProbe()
         {
             var selected = GetSelectedLPG();

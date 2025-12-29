@@ -124,7 +124,7 @@ namespace WF.Tool.World.LightProbeEdit
             }
         }
 
-        [MenuItem("GameObject/Create Other/LightProbeVisualizer")]
+        [MenuItem("GameObject/ライトプローブ編集/ライトプローブ可視化ツール",priority = 31)]
         public static void CreateInstanceIntoScene()
         {
             var path = AssetDatabase.GUIDToAssetPath("465e70e1d7f2bb34191559573aa3a5ec");
