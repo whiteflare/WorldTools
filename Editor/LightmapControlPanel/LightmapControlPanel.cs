@@ -26,6 +26,12 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
+#if UNITY_2021_2_OR_NEWER
+using UnityEditor.SceneManagement;
+#else
+using UnityEditor.Experimental.SceneManagement;
+#endif
+
 namespace WF.Tool.World.Lightmap
 {
     internal class LightmapControlPanel : EditorWindow
@@ -92,12 +98,20 @@ namespace WF.Tool.World.Lightmap
 
             if (root == null)
             {
-                for (int i = 0; i < SceneManager.sceneCount; i++)
+                var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                if (prefabStage != null)
                 {
-                    var scene = SceneManager.GetSceneAt(i);
-                    if (scene.isLoaded)
+                    rootObjects.Add(prefabStage.prefabContentsRoot);
+                }
+                else
+                {
+                    for (int i = 0; i < SceneManager.sceneCount; i++)
                     {
-                        scene.GetRootGameObjects(rootObjects);
+                        var scene = SceneManager.GetSceneAt(i);
+                        if (scene.isLoaded)
+                        {
+                            scene.GetRootGameObjects(rootObjects);
+                        }
                     }
                 }
             }
@@ -106,8 +120,12 @@ namespace WF.Tool.World.Lightmap
                 rootObjects.Add(root);
             }
 
+            // 非表示の rootObject は除外する
+            rootObjects.RemoveAll(go => !IsNotHide(go.transform));
+
+            // MeshRenderer を全て取得する
             var result = rootObjects.SelectMany(r => r.GetComponentsInChildren<MeshRenderer>(true));
-            result = result.Where(IsNotHide);
+            result = result.Where(IsNotHide); // 非表示は除外する
             if (onlyActiveObject)
             {
                 result = result.Where(mr => mr.gameObject.activeInHierarchy && mr.enabled);
@@ -144,17 +162,17 @@ namespace WF.Tool.World.Lightmap
         {
             if (cmp == null)
             {
-                return true;
+                return false;
             }
-            if (cmp.hideFlags != HideFlags.None)
+            if ((cmp.hideFlags & HideFlags.HideInHierarchy) != 0)
             {
                 return false;
             }
-            if (cmp.gameObject.hideFlags != HideFlags.None)
+            if ((cmp.hideFlags & HideFlags.HideInInspector) != 0)
             {
                 return false;
             }
-            return cmp is Transform t ? IsNotHide(t.parent) : IsNotHide(cmp.transform);
+            return true;
         }
 
         private void UpdateTreeView()
